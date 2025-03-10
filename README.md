@@ -1,5 +1,5 @@
 # Heic Converter
-A Simple And Cute Looking Network Diagram Built In Python With Flask
+A Simple And Cute Looking Network Diagram Built In Python With Flask and HTML, CSS, JS
 
 # Author
 Dalibor Jovanovic
