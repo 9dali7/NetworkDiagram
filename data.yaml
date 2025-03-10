@@ -1,0 +1,84 @@
+devices:
+  - name: Router
+    color: [135, 206, 250, 1.0]
+    ip: 192.168.10.1
+  
+  - name: Switch1
+    color: [144, 238, 144, 1.0]
+    ip: 192.168.10.2
+  
+  - name: Switch2
+    color: [144, 238, 144, 1.0]
+    ip: 192.168.10.3
+  
+  - name: Firewall1
+    color: [240, 128, 128, 1.0]
+    ip: 192.168.10.4
+  
+  - name: Firewall2
+    color: [240, 128, 128, 1.0]
+    ip: 192.168.10.5
+  
+  - name: Aruba11
+    color: [240, 128, 128, 1.0]
+    ip: 192.168.10.6
+  
+  - name: Aruba2
+    color: [240, 128, 128, 1.0]
+    ip: 192.168.10.7
+
+connections:
+  - from_device: Router
+    from_port: eth0
+    to_device: Switch1
+    to_port: eth0
+
+  - from_device: Router
+    from_port: eth1
+    to_device: Switch2
+    to_port: eth1
+  
+  - from_device: Router
+    from_port: eth2
+    to_device: Switch1
+    to_port: eth2
+  
+  - from_device: Router
+    from_port: eth3
+    to_device: Switch2
+    to_port: eth3
+
+  - from_device: Router
+    from_port: eth4
+    to_device: Firewall1
+    to_port: eth0
+
+  - from_device: Router
+    from_port: eth5
+    to_device: Firewall2
+    to_port: eth0
+
+  - from_device: Router
+    from_port: eth7
+    to_device: Switch2
+    to_port: eth7
+
+  - from_device: Switch2
+    from_port: eth8
+    to_device: Router
+    to_port: eth8
+
+  - from_device: Firewall1
+    from_port: eth1
+    to_device: Firewall2
+    to_port: eth1
+
+  - from_device: Firewall1
+    from_port: eth2
+    to_device: Switch1
+    to_port: eth9
+
+  - from_device: Firewall2
+    from_port: eth3
+    to_device: Firewall1
+    to_port: eth3
