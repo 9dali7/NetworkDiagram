@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Diagram</title>
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <style type="text/css">
+        body, html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        #network-container {
+            width: 100%;
+            height: 100%;
+            border: 1px solid lightgray;
+        }
+    </style>
+</head>
+<body>
+    <div id="network-container"></div>
+    <script type="text/javascript">
+        fetch('/data')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('network-container');
+
+                const nodes = new vis.DataSet(data.devices.map((device, index) => {
+                    const angle = (index / data.devices.length) * 2 * Math.PI;
+                    const radius = 200;
+                    const x = radius * Math.cos(angle);
+                    const y = radius * Math.sin(angle);
+                    return {
+                        id: device.name,
+                        label: `${device.name}\nIP: ${device.ip}`,
+                        x: x,
+                        y: y,
+                        shape: 'box',
+                        margin: 10,
+                        widthConstraint: {
+                            minimum: 100,
+                            maximum: 200
+                        },
+                        borderWidth: 1,
+                        color: {
+                            background: `rgba(${device.color.join(',')})`,
+                            border: 'black'
+                        }
+                    };
+                }));
+
+                const edges = new vis.DataSet(data.connections.map(conn => ({
+                    from: conn.from_device,
+                    to: conn.to_device,
+                    label: `${conn.from_port} -> ${conn.to_port}`,
+                    color: {
+                        color: nodes.get(conn.from_device).color.background,
+                        highlight: nodes.get(conn.from_device).color.background,
+                        hover: nodes.get(conn.from_device).color.background
+                    },
+                    arrows: {
+                        to: {
+                            enabled: true,
+                            scaleFactor: 0.5
+                        }
+                    },
+                    width: 3,
+                    physics: true,
+                    length: 300
+                })));
+
+                edges.forEach((edge, index) => {
+                    if (index > 0) {
+                        const prevEdge = edges.get(index - 1);
+                        edge.length = prevEdge.length + 20;
+                    }
+                });
+
+                const networkData = { nodes: nodes, edges: edges };
+                const options = {
+                    physics: {
+                        enabled: true,
+                        hierarchicalRepulsion: {
+                            nodeDistance: 200
+                        },
+                        minVelocity: 0.75, 
+                        solver: 'repulsion'
+                    }
+                };
+
+                new vis.Network(container, networkData, options);
+            });
+    </script>
+</body>
+</html>
+
