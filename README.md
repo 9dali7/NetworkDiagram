@@ -7,7 +7,7 @@ Dalibor Jovanovic
 # Download & Setup
 ```
 git clone https://github.com/9dali7/NetworkDiagram.git \
-cd NetworkDiagram \
+cd NetworkDiagram 
 ```
 
 I suggest to create a folder inside "/var/www/NetworkDiagram"
