@@ -1,4 +1,4 @@
-# Heic Converter
+# Network Diagram
 A Simple And Cute Looking Network Diagram Built In Python With Flask and HTML, CSS, JS
 
 # Author
